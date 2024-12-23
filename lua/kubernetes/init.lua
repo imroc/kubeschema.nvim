@@ -17,4 +17,10 @@ function M.setup(opts)
 	config = vim.tbl_deep_extend("force", config, opts or {})
 end
 
+M.kubeschema = function()
+	vim.notify("kubeschema")
+end
+
+vim.api.nvim_create_user_command("KubeSchema", M.kubeschema, { desc = "Dump kubernetes json schema" })
+
 return M
