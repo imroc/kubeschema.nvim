@@ -21,6 +21,4 @@ M.kubeschema = function()
 	vim.notify("kubeschema")
 end
 
-vim.api.nvim_create_user_command("KubeSchema", M.kubeschema, { desc = "Dump kubernetes json schema" })
-
 return M
