@@ -17,8 +17,8 @@ function M.setup(opts)
 	config = vim.tbl_deep_extend("force", config, opts or {})
 end
 
-M.kubeschema = function()
-	vim.notify("kubeschema")
+M.update_schema = function()
+	vim.notify("update schema")
 end
 
 return M
