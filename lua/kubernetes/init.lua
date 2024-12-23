@@ -17,8 +17,22 @@ function M.setup(opts)
 	config = vim.tbl_deep_extend("force", config, opts or {})
 end
 
+local Job = require("plenary.job")
+local Path = require("plenary.path")
+
 M.update_schema = function()
-	vim.notify("update schema")
+	Path:new(config.cache_dir):mkdir({ parents = true })
+	Job:new({
+		command = "kubeschema",
+		args = { "dump", "--out-dir", config.cache_dir },
+		on_exit = function(job, code)
+			if code ~= 0 then
+				vim.notify("kubeschema exited status " .. code .. " : " .. job:result())
+			else
+				vim.notify("kubernetes json schema generated successfully")
+			end
+		end,
+	}):start()
 end
 
 return M
