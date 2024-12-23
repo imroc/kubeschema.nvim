@@ -9,13 +9,10 @@ local function remove_prefix(str, prefix)
 end
 
 local path_separator = package.config:sub(1, 1)
-
--- local kubeschemas_dir = os.getenv("HOME") .. path_separator .. ".config" .. path_separator .. "kubeschemas"
-
--- local kubeschemas = kubeschemas_dir .. path_separator .. "kubernetes.json"
 local regKind = vim.regex([[\v^kind: \S+$]])
 local regApiVersion = vim.regex([[\v^apiVersion: \S+$]])
 local regHelm = vim.regex([[\v\{\{.+\}\}]])
+
 local detach = function(client, bufnr)
 	vim.diagnostic.enable(false, { bufnr = bufnr })
 	vim.defer_fn(function()
@@ -68,7 +65,6 @@ local get_new_settings = function(client, bufnr, kubeschemas_dir)
 				filename = string.lower(filename)
 			end
 		end
-		vim.notify("use schema " .. filename)
 		local jsonschema = kubeschemas_dir .. path_separator .. filename
 		if vim.uv.fs_stat(jsonschema) then
 			local schemas = client.config.settings.yaml.schemas or {}
@@ -85,7 +81,6 @@ local get_new_settings = function(client, bufnr, kubeschemas_dir)
 end
 
 M.on_attach = function(client, bufnr, kubeschemas_dir)
-	vim.notify("use cache dir:" .. kubeschemas_dir)
 	if client.name ~= "yamlls" then
 		return
 	end
