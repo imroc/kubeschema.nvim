@@ -85,6 +85,7 @@ local get_new_settings = function(client, bufnr, kubeschemas_dir)
 end
 
 M.on_attach = function(client, bufnr, kubeschemas_dir)
+	vim.notify("use cache dir:" .. kubeschemas_dir)
 	if client.name ~= "yamlls" then
 		return
 	end
