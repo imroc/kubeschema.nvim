@@ -35,4 +35,8 @@ M.update_schema = function()
 	}):start()
 end
 
+M.on_attach = function(client, bufnr)
+	require("kubernetes.yamlls").on_attach(client, bufnr, config.cache_dir)
+end
+
 return M
