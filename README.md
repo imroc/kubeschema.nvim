@@ -33,3 +33,11 @@ Use [lazy.nvim](https://github.com/folke/lazy.nvim):
   },
 }
 ```
+
+##  Configuration
+
+```lua
+{
+  cache_dir = vim.fn.stdpath("data") .. "/kubenretes",
+}
+```
