@@ -22,7 +22,7 @@ local Path = require("plenary.path")
 
 M.dump_schema = function()
 	Path:new(config.cache_dir):mkdir({ parents = true })
-	vim.notify("running: kubeschema dump --index --out-dir " .. config.cache_dir)
+	vim.notify("dump kubernetes json schema to " .. config.cache_dir)
 	Job:new({
 		command = "kubeschema",
 		args = { "dump", "--index", "--out-dir", config.cache_dir },
