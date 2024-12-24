@@ -24,7 +24,9 @@ Use [lazy.nvim](https://github.com/folke/lazy.nvim):
     servers = {
       yamlls = {
         on_attach = function(client, bufnr)
+          -- lazy load on_attach in kubernetes.nvim
           require("kubernetes").on_attach(client, bufnr)
+          -- you can add other customized on_attach logic below if you want
         end,
       },
     },
