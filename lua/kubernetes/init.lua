@@ -22,9 +22,10 @@ local Path = require("plenary.path")
 
 M.update_schema = function()
 	Path:new(config.cache_dir):mkdir({ parents = true })
+	vim.notify("running: kubeschema dump --index --out-dir " .. config.cache_dir)
 	Job:new({
 		command = "kubeschema",
-		args = { "dump", "--out-dir", config.cache_dir },
+		args = { "dump", "--index", "--out-dir", config.cache_dir },
 		on_exit = function(job, code)
 			if code ~= 0 then
 				vim.notify("kubeschema exited status " .. code .. " : " .. job:result())
