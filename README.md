@@ -8,27 +8,26 @@ A neovim plugin for kubernetes.
 
 ## Installation
 
+Install the plugin with your package manager.
+
 Use [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 ```lua
-return {
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      {
-        "imroc/kubernetes.nvim",
-      },
+{
+  "neovim/nvim-lspconfig",
+  dependencies = {
+    {
+      "imroc/kubernetes.nvim",
     },
-    opts = {
-      servers = {
-        yamlls = {
-          on_attach = function(client, bufnr)
-            require("kubernetes").on_attach(client, bufnr)
-          end,
-        },
+  },
+  opts = {
+    servers = {
+      yamlls = {
+        on_attach = function(client, bufnr)
+          require("kubernetes").on_attach(client, bufnr)
+        end,
       },
     },
   },
 }
 ```
-
