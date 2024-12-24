@@ -20,7 +20,7 @@ end
 local Job = require("plenary.job")
 local Path = require("plenary.path")
 
-M.update_schema = function()
+M.dump_schema = function()
 	Path:new(config.cache_dir):mkdir({ parents = true })
 	vim.notify("running: kubeschema dump --index --out-dir " .. config.cache_dir)
 	Job:new({
