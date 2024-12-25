@@ -1,4 +1,4 @@
-# kubenretes.nvim
+# kubernetes.nvim
 
 Kubernetes Schema Support for Neovim.
 
