@@ -55,7 +55,7 @@ function M.dump_schema()
 	Path:new(config.extra_schema.dir):mkdir({ parents = true })
 	Job:new({
 		command = "kubeschema",
-		args = { "dump", "--index", "--out-dir", config.extra_schema.dir },
+		args = { "dump", "--index", "--out-dir", config.extra_schema.dir, "--extra-dir", config.schema.dir },
 		on_exit = function(job, code)
 			if code ~= 0 then
 				vim.notify("kubeschema exited status " .. code .. " : " .. job:result())
