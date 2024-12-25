@@ -24,19 +24,22 @@ M.did_setup = false
 
 ---@param schema kubernetes.Schema?
 local function ensure_schema_dir(schema)
-	if schema.dir and not vim.uv.fs_stat(schema.dir) and schema.url then
-		vim.notify("downloading kubernetes json schema from " .. schema.url)
-		Job:new({
-			command = "git",
-			args = { "clone", "--depth=1", schema.url, schema.dir },
-			on_exit = function(job, code)
-				if code ~= 0 then
-					vim.notify("git clone exited with status " .. code .. " : " .. job:result())
-				else
-					vim.notify("kubernetes json schema downloaded successfully")
-				end
-			end,
-		}):start()
+	if schema.dir then
+		schema.dir = schema.dir:gsub("~", os.getenv("HOME") or "~")
+		if not vim.uv.fs_stat(schema.dir) and schema.url then
+			vim.notify("downloading kubernetes json schema from " .. schema.url)
+			Job:new({
+				command = "git",
+				args = { "clone", "--depth=1", schema.url, schema.dir },
+				on_exit = function(job, code)
+					if code ~= 0 then
+						vim.notify("git clone exited with status " .. code .. " : " .. job:result())
+					else
+						vim.notify("kubernetes json schema downloaded successfully")
+					end
+				end,
+			}):start()
+		end
 	end
 end
 
