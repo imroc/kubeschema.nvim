@@ -12,7 +12,7 @@ Auto completion with kubernetes custom resources:
 
 ![](./images/cert-autocomplete.png)
 
-Hover on fields:
+Hover over the field to expand the explanation (usually press `K`):
 
 ![](./images/hover-cert.png)
 
