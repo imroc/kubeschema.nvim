@@ -65,3 +65,11 @@ Use [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 - `KubeSchemaDump`: Dump kubernetes json schema from current cluster (Require [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [kubeschema](https://github.com/imroc/kubeschema) installed and can operate the current cluster).
 - `KubeSchemaUpdate`: Update kubernetes json schema from remote git repo (Require `git` installed).
+
+## How it works
+
+Dynamically parse the `kind` and `apiVersion` fields in the YAML file content to locate the corresponding JSON schema file and pass it to `yamlls`, thereby enabling automatic completion, validation, and field explanation hints for Kubernetes YAML.
+
+This approach has the following advantages:
+1. **High performance**. Precise matching of small JSON schemas means yamlls does not need to traverse all the schemas during matching.
+2. **Extremely extensible**. Each kubernetes resource type have a corresponding json schema file, one subdirectory per group, allowing for unlimited expansion of additional kubernetes resource types.
