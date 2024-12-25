@@ -22,7 +22,7 @@ Hover over the field to expand the explanation (usually press `K`):
 
 ## Installation
 
-`neovim/nvim-lspconfig` MUST be installed, and `yamlls`'s `on_attach` MUST call `kubernetes.nvim`'s `on_attach` function.
+[neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) MUST be installed, and `yamlls`'s `on_attach` MUST call `kubernetes.nvim`'s `on_attach` function.
 
 Install the plugin with your package manager.
 
