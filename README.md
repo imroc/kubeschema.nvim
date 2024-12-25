@@ -2,7 +2,7 @@
 
 A neovim plugin for kubernetes.
 
-## Screen Shots
+## Screenshots
 
 ![](./images/deployment-autocomplete.png)
 
