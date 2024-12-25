@@ -53,14 +53,11 @@ local get_new_settings = function(client, bufnr, config)
 		else
 			if apiVersion then
 				local ss = vim.split(apiVersion, "/")
-				local group = "core.api.k8s.io"
+				local group = "core"
 				local version = apiVersion
 				if #ss == 2 then
 					group = ss[1]
 					version = ss[2]
-					if #vim.split(group, ".", { plain = true }) == 1 then -- 不存在 "."，是 k8s 自带的 API
-						group = group .. ".api.k8s.io"
-					end
 				end
 				filename = group .. path_separator .. kind .. "_" .. version .. ".json"
 				filename = string.lower(filename)
