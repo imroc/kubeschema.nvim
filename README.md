@@ -4,9 +4,17 @@ Kubernetes Schema Support for Neovim.
 
 ## Screenshots
 
+Auto completion with kubernetes resources:
+
 ![](./images/deployment-autocomplete.png)
 
+Auto completion with kubernetes custom resources:
+
 ![](./images/cert-autocomplete.png)
+
+Hover on fields:
+
+![](./images/hover-cert.png)
 
 ## Installation
 
