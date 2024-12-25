@@ -33,7 +33,7 @@ local function ensure_schema_dir(schema)
 				args = { "clone", "--depth=1", schema.url, schema.dir },
 				on_exit = function(job, code)
 					if code ~= 0 then
-						vim.notify("git clone exited with status " .. code .. " : " .. job:result())
+						vim.notify("git clone exited with status " .. code)
 					else
 						vim.notify("kubernetes json schema downloaded successfully")
 					end
@@ -61,7 +61,7 @@ function M.dump_schema()
 		args = { "dump", "--index", "--out-dir", config.extra_schema.dir, "--extra-dir", config.schema.dir },
 		on_exit = function(job, code)
 			if code ~= 0 then
-				vim.notify("kubeschema exited status " .. code .. " : " .. job:result())
+				vim.notify("kubeschema exited status " .. code)
 			else
 				vim.notify("kubernetes json schema generated successfully")
 			end
@@ -80,9 +80,9 @@ local function update_schema(schema)
 			args = { "-C", schema.dir, "pull" },
 			on_exit = function(job, code)
 				if code ~= 0 then
-					vim.notify("git pull exited status " .. code .. " : " .. job:result())
+					vim.notify("git pull exited status " .. code)
 				else
-					vim.notify(job:result())
+					vim.notify("kubernetes json schema updated")
 				end
 			end,
 		}):start()
