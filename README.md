@@ -38,6 +38,13 @@ Use [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 ```lua
 {
-  cache_dir = vim.fn.stdpath("data") .. "/kubenretes",
+  schema = { -- default schema
+    url = "https://github.com/imroc/kubeschemas",
+    dir = vim.fn.stdpath("data") .. "/kubernetes/schemas",
+  },
+  extra_schema = { -- extra schema
+    url = "",
+    dir = vim.fn.stdpath("data") .. "/kubernetes/extra_schemas", -- extra schema dir, `KubeSchemaDump` command will dump json schema to this dir, and have higher priority in schema match
+  }
 }
 ```

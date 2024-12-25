@@ -21,7 +21,8 @@ local detach = function(client, bufnr)
 	end, 500)
 end
 
-local get_new_settings = function(client, bufnr, kubeschemas_dir)
+---@param config kubernetes.Config?
+local get_new_settings = function(client, bufnr, config)
 	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 	local kind = nil
 	local apiVersion = nil
@@ -65,7 +66,10 @@ local get_new_settings = function(client, bufnr, kubeschemas_dir)
 				filename = string.lower(filename)
 			end
 		end
-		local jsonschema = kubeschemas_dir .. path_separator .. filename
+		local jsonschema = config.extra_schema.dir .. path_separator .. filename -- check extra schema first
+		if not vim.uv.fs_stat(jsonschema) then -- fallback to default schema if extra schema not exsited
+			jsonschema = config.schema.dir .. path_separator .. filename
+		end
 		if vim.uv.fs_stat(jsonschema) then
 			local schemas = client.config.settings.yaml.schemas or {}
 			local schema = schemas[jsonschema] or {}
@@ -80,7 +84,8 @@ local get_new_settings = function(client, bufnr, kubeschemas_dir)
 	end
 end
 
-M.on_attach = function(client, bufnr, kubeschemas_dir)
+---@param config kubernetes.Config?
+function M.on_attach(client, bufnr, config)
 	if client.name ~= "yamlls" then
 		return
 	end
@@ -96,7 +101,7 @@ M.on_attach = function(client, bufnr, kubeschemas_dir)
 		return
 	end
 
-	local new_settings = get_new_settings(client, bufnr, kubeschemas_dir)
+	local new_settings = get_new_settings(client, bufnr, config)
 	if new_settings then
 		client.server_capabilities.documentRangeFormattingProvider = true
 		client.workspace_did_change_configuration(new_settings)
