@@ -1,6 +1,6 @@
 # kubenretes.nvim
 
-A neovim plugin for kubernetes.
+Kubernetes Schema Support for Neovim.
 
 ## Screenshots
 
