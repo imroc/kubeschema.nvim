@@ -22,7 +22,7 @@ local detach = function(client, bufnr)
 end
 
 ---@param config kubernetes.Config?
-local get_new_settings = function(client, bufnr, config)
+local get_kube_schema_settings = function(client, bufnr, config)
 	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 	local kind = nil
 	local apiVersion = nil
@@ -86,11 +86,7 @@ function M.on_attach(client, bufnr, config)
 	if client.name ~= "yamlls" then
 		return
 	end
-	--  忽略 kustomization.yaml，因为由另外的 schema 处理
-	local buf_path = vim.api.nvim_buf_get_name(bufnr)
-	if buf_path:match("kustomization.ya?ml$") then
-		return
-	end
+
 	-- remove yamlls from not yaml files
 	-- https://github.com/towolf/vim-helm/issues/15
 	if vim.bo[bufnr].buftype ~= "" or vim.bo[bufnr].filetype == "helm" then
@@ -98,10 +94,16 @@ function M.on_attach(client, bufnr, config)
 		return
 	end
 
-	local new_settings = get_new_settings(client, bufnr, config)
-	if new_settings then
-		client.server_capabilities.documentRangeFormattingProvider = true
-		client.workspace_did_change_configuration(new_settings)
+	--  ignore kustomization.yaml to avoid conflict with schemastore.nvim
+	local buf_path = vim.api.nvim_buf_get_name(bufnr)
+	if buf_path:match("kustomization.ya?ml$") then
+		return
+	end
+
+	local settings = get_kube_schema_settings(client, bufnr, config)
+	if settings then
+		-- client.server_capabilities.documentRangeFormattingProvider = true
+		client.workspace_did_change_configuration(settings)
 	end
 end
 
