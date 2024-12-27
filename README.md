@@ -93,7 +93,7 @@ Or
 
 ## Command
 
-- `KubeSchemaDump`: Dump kubernetes json schema from current cluster to add extra schemas (Require [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [kubeschema](https://github.com/imroc/kubeschema) installed and can use kubectl to operate the current cluster).
+- `KubeSchemaDump`: Dump kubernetes json schema from current cluster to add extra schemas (Require [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) and [kubeschema](https://github.com/imroc/kubeschema) installed and can operate the current cluster).
 - `KubeSchemaUpdate`: Update kubernetes json schema from remote git repo (Require `git` installed).
 
 ## How it works
