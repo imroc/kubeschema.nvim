@@ -92,9 +92,9 @@ function M.on_attach(client, bufnr, config)
 		return
 	end
 
-	--  ignore kustomization.yaml to avoid conflict with schemastore.nvim
+	--  ignore kustomization.yaml and k3d.yaml to avoid conflict with schemastore.nvim
 	local buf_path = vim.api.nvim_buf_get_name(bufnr)
-	if buf_path:match("kustomization.ya?ml$") then
+	if buf_path:match("kustomization.ya?ml$") or buf_path:match("k3d.ya?ml$") then
 		return
 	end
 

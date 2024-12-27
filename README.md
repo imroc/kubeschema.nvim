@@ -16,7 +16,7 @@ Auto completion with kubeconfig:
 
 ![](./images/kubeconfig-autocomplete.png)
 
-Auto completion with [kind](https://kind.sigs.k8s.io/):
+Auto completion with [kind](https://kind.sigs.k8s.io/) configuration:
 
 ![](./images/kind-autocomplete.png)
 
