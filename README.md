@@ -87,7 +87,7 @@ Or
   opts = function(_, opts)
     opts.servers = vim.tbl_deep_extend("force", opts.servers or {}, {
       yamlls = {
-        -- the opts function is already lazy loaded, so we can directly assign the on_attach function here
+        -- the opts function is already lazy loaded, so we can directly assign the on_attach function here if no other custom logic needed
         on_attach = require("kubernetes").on_attach
       }
     })
