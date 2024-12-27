@@ -38,6 +38,16 @@ Use [lazy.nvim](https://github.com/folke/lazy.nvim):
   dependencies = {
     {
       "imroc/kubernetes.nvim",
+      opts = {
+        schema = { -- default schema
+          url = "https://github.com/imroc/kubeschemas",
+          dir = vim.fn.stdpath("data") .. "/kubernetes/schemas",
+        },
+        extra_schema = { -- extra schema
+          url = "",
+          dir = vim.fn.stdpath("data") .. "/kubernetes/extra_schemas", -- extra schema dir, `KubeSchemaDump` command will dump json schema to this dir, and have higher priority in schema match
+        }
+      }
     }
   },
   opts = {
@@ -61,7 +71,17 @@ Or
   "neovim/nvim-lspconfig",
   dependencies = {
     {
-      "imroc/kubernetes.nvim"
+      "imroc/kubernetes.nvim",
+      opts = {
+        schema = { -- default schema
+          url = "https://github.com/imroc/kubeschemas",
+          dir = vim.fn.stdpath("data") .. "/kubernetes/schemas",
+        },
+        extra_schema = { -- extra schema
+          url = "",
+          dir = vim.fn.stdpath("data") .. "/kubernetes/extra_schemas", -- extra schema dir, `KubeSchemaDump` command will dump json schema to this dir, and have higher priority in schema match
+        }
+      }
     }
   },
   opts = function(_, opts)
