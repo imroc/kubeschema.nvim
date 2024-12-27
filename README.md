@@ -38,7 +38,7 @@ Use [lazy.nvim](https://github.com/folke/lazy.nvim):
   dependencies = {
     {
       "imroc/kubernetes.nvim",
-    },
+    }
   },
   opts = {
     servers = {
@@ -48,9 +48,29 @@ Use [lazy.nvim](https://github.com/folke/lazy.nvim):
           require("kubernetes").on_attach(client, bufnr)
           -- you can add other customized on_attach logic below if you want
         end,
-      },
-    },
+      }
+    }
+  }
+}
+```
+
+Or
+
+```lua
+{
+  "neovim/nvim-lspconfig",
+  dependencies = {
+    {
+      "imroc/kubernetes.nvim"
+    }
   },
+  opts = function(_, opts)
+    opts.servers = vim.tbl_deep_extend("force", opts.servers or {}, {
+      yamlls = {
+        on_attach = require("kubernetes").on_attach
+      }
+    })
+  end
 }
 ```
 
