@@ -46,22 +46,20 @@ local get_kube_schema_settings = function(client, bufnr, config)
 		end
 	end
 
-	if kind then
+	if kind and apiVersion then
 		local filename = ""
 		if multi then
 			filename = "kubernetes.json"
 		else
-			if apiVersion then
-				local ss = vim.split(apiVersion, "/")
-				local group = "core"
-				local version = apiVersion
-				if #ss == 2 then
-					group = ss[1]
-					version = ss[2]
-				end
-				filename = group .. path_separator .. kind .. "_" .. version .. ".json"
-				filename = string.lower(filename)
+			local ss = vim.split(apiVersion, "/")
+			local group = "core"
+			local version = apiVersion
+			if #ss == 2 then
+				group = ss[1]
+				version = ss[2]
 			end
+			filename = group .. path_separator .. kind .. "_" .. version .. ".json"
+			filename = string.lower(filename)
 		end
 		local jsonschema = config.extra_schema.dir .. path_separator .. filename -- check extra schema first
 		if not vim.uv.fs_stat(jsonschema) then -- fallback to default schema if extra schema not exsited
