@@ -96,6 +96,8 @@ Or
 
 ##  Configuration
 
+Default configuration:
+
 ```lua
 {
   schema = { -- default schema
