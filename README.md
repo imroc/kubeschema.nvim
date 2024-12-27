@@ -12,6 +12,10 @@ Auto completion with kubernetes custom resources:
 
 ![](./images/cert-autocomplete.png)
 
+Auto completion with kubeconfig:
+
+![](./images/kubeconfig-autocomplete.png)
+
 Validation:
 
 ![](./images/validation.png)
