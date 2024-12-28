@@ -58,7 +58,7 @@ local get_kube_schema_settings = function(client, bufnr, config)
 				group = ss[1]
 				version = ss[2]
 			end
-			if string.match(group, "%.") then
+			if not string.match(group, "%.") then
 				group = group .. ".api.k8s.io"
 			end
 			filename = group .. path_separator .. kind .. "_" .. version .. ".json"
