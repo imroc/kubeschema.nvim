@@ -50,6 +50,10 @@ Use [lazy.nvim](https://github.com/folke/lazy.nvim):
         extra_schema = { -- extra schema, mainly your own crd
           url = "",
           dir = vim.fn.stdpath("data") .. "/kubernetes/extra_schemas", -- extra schema dir, `KubeSchemaDump` command will dump json schema to this dir, and have higher priority in schema match
+        },
+        ignore_file_patterns = { -- ignore file patterns, can be used to avoid conflict with other schemas (e.g. SchemaStore.nvim)
+          [[kustomization\.ya?ml$]],
+          [[k3d\.ya?ml$]],
         }
       }
     }
@@ -84,6 +88,10 @@ Or
         extra_schema = { -- extra schema, mainly your own crd
           url = "",
           dir = vim.fn.stdpath("data") .. "/kubernetes/extra_schemas", -- extra schema dir, `KubeSchemaDump` command will dump json schema to this dir, and have higher priority in schema match
+        },
+        ignore_file_patterns = { -- ignore file patterns, can be used to avoid conflict with other schemas (e.g. SchemaStore.nvim)
+          [[kustomization\.ya?ml$]],
+          [[k3d\.ya?ml$]],
         }
       }
     }
@@ -112,7 +120,11 @@ Default configuration:
   extra_schema = { -- extra schema, mainly your own crd
     url = "",
     dir = vim.fn.stdpath("data") .. "/kubernetes/extra_schemas", -- extra schema dir, `KubeSchemaDump` command will dump json schema to this dir, and have higher priority in schema match
-  }
+  },
+	ignore_file_patterns = { -- ignore file patterns, can be used to avoid conflict with other schemas (e.g. SchemaStore.nvim)
+		[[kustomization\.ya?ml$]],
+		[[k3d\.ya?ml$]],
+	}
 }
 ```
 

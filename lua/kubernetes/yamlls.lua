@@ -97,9 +97,16 @@ function M.on_attach(client, bufnr, config)
 
 	--  ignore kustomization.yaml and k3d.yaml to avoid conflict with schemastore.nvim
 	local buf_path = vim.api.nvim_buf_get_name(bufnr)
-	if buf_path:match("kustomization.ya?ml$") or buf_path:match("k3d.ya?ml$") then
+	if not config.match_ignore then
+		require("kubernetes.match").setup_matcher(config)
+	end
+	if config.match_ignore(buf_path) then
 		return
 	end
+
+	-- if buf_path:match("kustomization.ya?ml$") or buf_path:match("k3d.ya?ml$") then
+	-- 	return
+	-- end
 
 	local settings = get_kube_schema_settings(client, bufnr, config)
 	if settings then

@@ -10,6 +10,7 @@ local Path = require("plenary.path")
 ---@class kubernetes.Config
 ---@field schema? kubernetes.Schema
 ---@field extra_schema? kubernetes.Schema
+---@field ignore_file_patterns? string[]
 local config = {
 	schema = {
 		url = "https://github.com/imroc/kubeschemas",
@@ -17,6 +18,10 @@ local config = {
 	},
 	extra_schema = {
 		dir = vim.fn.stdpath("data") .. "/kubernetes/extra_schemas",
+	},
+	ignore_file_patterns = {
+		[[kustomization\.ya?ml$]],
+		[[k3d\.ya?ml$]],
 	},
 }
 
@@ -52,6 +57,7 @@ function M.setup(opts)
 	config = vim.tbl_deep_extend("force", config, opts or {})
 	ensure_schema_dir(config.schema)
 	ensure_schema_dir(config.extra_schema)
+	require("kubernetes.match").setup_matcher(config)
 end
 
 function M.dump_schema()
