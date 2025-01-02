@@ -1,13 +1,13 @@
 # kubeschema.nvim
 
-Kubernetes Schema Support for Neovim, Schema is Powered by [kubeschema](https://github.com/imroc/kubeschema) and [kubeschemas](https://github.com/imroc/kubeschemas).
+Kubernetes Schema Support for Neovim, Schema is Powered by [kubeschema](https://github.com/imroc/kubeschema) (Generate json schema from kubernetes builtin resource types and CRDs) and [kubeschemas](https://github.com/imroc/kubeschemas) (Publicly maintained kubernetes related json schema).
 
 All kubenretes builtin resource types, a lot of well knowns CRDs and kubernetes related configuration file schemas are supported out of the box (about 1500 types), and can be flexibly extended with more customized schemas.
 
 
 ## Screenshots
 
-Auto completion with kubernetes resources:
+Auto completion with kubernetes builtin resources:
 
 ![](./images/deployment-autocomplete.png)
 
@@ -31,7 +31,7 @@ Validation:
 
 ![](./images/validation.png)
 
-Hover over the field to expand the explanation (usually press `K`):
+Field description (usually press `K`):
 
 ![](./images/hover-cert.png)
 
