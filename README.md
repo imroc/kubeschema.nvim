@@ -1,6 +1,6 @@
 # kubeschema.nvim
 
-Kubernetes Schema Support for Neovim, Schema is Powered by [kubeschema](https://github.com/imroc/kubeschema) (Generate json schema from kubernetes builtin resource types and CRDs) and [kubeschemas](https://github.com/imroc/kubeschemas) (Publicly maintained kubernetes related json schema).
+Kubernetes Schema Support for Neovim, Schema is Powered by [kubeschema](https://github.com/imroc/kubeschema) (A tool to generate json schema from kubernetes builtin resource types and CRDs) and [kubeschemas](https://github.com/imroc/kubeschemas) (Publicly maintained kubernetes related json schema).
 
 All kubenretes builtin resource types, a lot of well knowns CRDs and kubernetes related configuration file schemas are supported out of the box (1500+ types), and can be flexibly extended with more customized schemas.
 
