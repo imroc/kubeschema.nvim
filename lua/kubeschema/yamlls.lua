@@ -62,6 +62,22 @@ local function set_schema(schema_file, bufuri, schemas)
 	return true
 end
 
+---@param key string
+---@param str string
+local function parse_value(key, str)
+	return str:match("^%s*" .. key .. ":%s*([^#%s]+)")
+	-- local start, col_end = str:find("^%s*" .. key .. ":")
+	-- if start then
+	-- 	local value_part = str:sub(col_end + 1)
+	-- 	local comment_start = value_part:find("#")
+	-- 	if comment_start then
+	-- 		value_part = value_part:sub(1, comment_start - 1)
+	-- 	end
+	-- 	value_part = value_part:match("^%s*(.*%S)%s*$")
+	-- 	return value_part
+	-- end
+end
+
 ---@param config kubeschema.Config?
 local get_kube_schema_settings = function(client, bufnr, config)
 	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
@@ -73,16 +89,17 @@ local get_kube_schema_settings = function(client, bufnr, config)
 			detach(client, bufnr)
 			return nil
 		end
-		if regKind:match_str(line) then
-			if kind then
+
+		local v = parse_value("apiVersion", line)
+		if v then
+			if apiVersion then
 				multi = true
-				break
+			else
+				apiVersion = v
 			end
-			kind = remove_prefix(line, "kind: ")
-		end
-		if not apiVersion then
-			if regApiVersion:match_str(line) then
-				apiVersion = remove_prefix(line, "apiVersion: ")
+		else
+			if not kind then
+				kind = parse_value("kind", line)
 			end
 		end
 	end
