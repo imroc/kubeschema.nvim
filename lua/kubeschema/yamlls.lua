@@ -21,6 +21,47 @@ local detach = function(client, bufnr)
 	end, 500)
 end
 
+local buf_schemas = {}
+
+local function set_schema(schema_file, bufuri, schemas)
+	local old_schema_file = buf_schemas[bufuri]
+	if old_schema_file then
+		if old_schema_file == schema_file then
+			return false
+		end
+		-- clean old schema
+		local file_pattern = schemas[old_schema_file]
+		if file_pattern then
+			local tp = type(file_pattern)
+			if tp == "table" then
+				for i = #file_pattern, 1, -1 do
+					if file_pattern[i] == bufuri then
+						table.remove(file_pattern, i)
+					end
+				end
+			else
+				if tp == "string" and file_pattern == bufuri then
+					schemas[old_schema_file] = nil
+				end
+			end
+		end
+	end
+	buf_schemas[bufuri] = schema_file
+	local schema = schemas[schema_file]
+	if not schema then
+		schema = {}
+	end
+	if type(schema) == "string" then
+		schema = { schema }
+	end
+	if vim.list_contains(schema, bufuri) then
+		return false
+	end
+	vim.list_extend(schema, { bufuri })
+	schemas[schema_file] = schema
+	return true
+end
+
 ---@param config kubeschema.Config?
 local get_kube_schema_settings = function(client, bufnr, config)
 	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
@@ -61,17 +102,14 @@ local get_kube_schema_settings = function(client, bufnr, config)
 			filename = group .. path_separator .. kind .. "_" .. version .. ".json"
 			filename = string.lower(filename)
 		end
-		local jsonschema = config.extra_schema.dir .. path_separator .. filename -- check extra schema first
-		if not vim.uv.fs_stat(jsonschema) then -- fallback to default schema if extra schema not exsited
-			jsonschema = config.schema.dir .. path_separator .. filename
+		local schema_file = config.extra_schema.dir .. path_separator .. filename -- check extra schema first
+		if not vim.uv.fs_stat(schema_file) then -- fallback to default schema if extra schema not exsited
+			schema_file = config.schema.dir .. path_separator .. filename
 		end
-		if vim.uv.fs_stat(jsonschema) then
+		if vim.uv.fs_stat(schema_file) then
 			local schemas = client.config.settings.yaml.schemas or {}
-			local schema = schemas[jsonschema] or {}
 			local bufuri = vim.uri_from_bufnr(bufnr)
-			if not vim.tbl_contains(schema, bufuri) then
-				vim.list_extend(schema, { bufuri })
-				schemas[jsonschema] = schema
+			if set_schema(schema_file, bufuri, schemas) then
 				client.config.settings.yaml.schemas = schemas
 				return client.config.settings
 			end
@@ -81,8 +119,19 @@ end
 
 local match = require("kubeschema.match")
 
----@param config kubeschema.Config?
-function M.on_attach(client, bufnr, config)
+---@param config kubeschema.Config
+function M.on_buf_write(bufnr, config)
+	local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+	for _, client in ipairs(clients) do
+		if client.name == "yamlls" then
+			M.update_yamlls_config(client, bufnr, config)
+			return
+		end
+	end
+end
+
+---@param config kubeschema.Config
+function M.update_yamlls_config(client, bufnr, config)
 	if client.name ~= "yamlls" then
 		return
 	end

@@ -49,6 +49,7 @@ local function ensure_schema_dir(schema)
 end
 
 local match = require("kubeschema.match")
+local yamlls = require("kubeschema.yamlls")
 
 ---@param opts kubeschema.Config?
 function M.setup(opts)
@@ -60,6 +61,13 @@ function M.setup(opts)
 	ensure_schema_dir(config.schema)
 	ensure_schema_dir(config.extra_schema)
 	match.setup_matcher(config)
+	vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+		pattern = { "*.yaml", "*.yml" },
+		callback = function(args)
+			local bufnr = args.buf
+			yamlls.on_buf_write(bufnr, config)
+		end,
+	})
 end
 
 function M.dump_schema()
@@ -103,7 +111,7 @@ function M.update_schema()
 end
 
 M.on_attach = function(client, bufnr)
-	require("kubeschema.yamlls").on_attach(client, bufnr, config)
+	yamlls.update_yamlls_config(client, bufnr, config)
 end
 
 return M
