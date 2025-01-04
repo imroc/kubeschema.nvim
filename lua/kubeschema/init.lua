@@ -48,6 +48,8 @@ local function ensure_schema_dir(schema)
 	end
 end
 
+local match = require("kubeschema.match")
+
 ---@param opts kubeschema.Config?
 function M.setup(opts)
 	if M.did_setup then
@@ -57,7 +59,7 @@ function M.setup(opts)
 	config = vim.tbl_deep_extend("force", config, opts or {})
 	ensure_schema_dir(config.schema)
 	ensure_schema_dir(config.extra_schema)
-	require("kubernetes.match").setup_matcher(config)
+	match.setup_matcher(config)
 end
 
 function M.dump_schema()
