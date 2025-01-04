@@ -3,13 +3,13 @@ local M = {}
 local Job = require("plenary.job")
 local Path = require("plenary.path")
 
----@class kubernetes.Schema
+---@class kubeschema.Schema
 ---@field url? string
 ---@field dir? string
 
----@class kubernetes.Config
----@field schema? kubernetes.Schema
----@field extra_schema? kubernetes.Schema
+---@class kubeschema.Config
+---@field schema? kubeschema.Schema
+---@field extra_schema? kubeschema.Schema
 ---@field ignore_file_patterns? string[]
 local config = {
 	schema = {
@@ -27,7 +27,7 @@ local config = {
 
 M.did_setup = false
 
----@param schema kubernetes.Schema?
+---@param schema kubeschema.Schema?
 local function ensure_schema_dir(schema)
 	if schema.dir then
 		schema.dir = schema.dir:gsub("~", os.getenv("HOME") or "~")
@@ -48,7 +48,7 @@ local function ensure_schema_dir(schema)
 	end
 end
 
----@param opts kubernetes.Config?
+---@param opts kubeschema.Config?
 function M.setup(opts)
 	if M.did_setup then
 		return vim.notify("kubernetes.nvim is already setup", vim.log.levels.ERROR, { title = "kubernetes.nvim" })
@@ -75,7 +75,7 @@ function M.dump_schema()
 	}):start()
 end
 
----@param schema kubernetes.Schema?
+---@param schema kubeschema.Schema?
 local function update_schema(schema)
 	if
 		schema.dir
@@ -101,7 +101,7 @@ function M.update_schema()
 end
 
 M.on_attach = function(client, bufnr)
-	require("kubernetes.yamlls").on_attach(client, bufnr, config)
+	require("kubeschema.yamlls").on_attach(client, bufnr, config)
 end
 
 return M

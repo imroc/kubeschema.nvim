@@ -21,7 +21,7 @@ local detach = function(client, bufnr)
 	end, 500)
 end
 
----@param config kubernetes.Config?
+---@param config kubeschema.Config?
 local get_kube_schema_settings = function(client, bufnr, config)
 	local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 	local kind = nil
@@ -79,7 +79,9 @@ local get_kube_schema_settings = function(client, bufnr, config)
 	end
 end
 
----@param config kubernetes.Config?
+local match = require("kubeschema.match")
+
+---@param config kubeschema.Config?
 function M.on_attach(client, bufnr, config)
 	if client.name ~= "yamlls" then
 		return
@@ -95,7 +97,7 @@ function M.on_attach(client, bufnr, config)
 	--  ignore kustomization.yaml and k3d.yaml to avoid conflict with schemastore.nvim
 	local buf_path = vim.api.nvim_buf_get_name(bufnr)
 	if not config.match_ignore then
-		require("kubernetes.match").setup_matcher(config)
+		match.setup_matcher(config)
 	end
 	if config.match_ignore(buf_path) then
 		return

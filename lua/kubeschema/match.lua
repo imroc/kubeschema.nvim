@@ -1,6 +1,6 @@
 local M = {}
 
----@param config kubernetes.Config
+---@param config kubeschema.Config
 function M.setup_matcher(config)
 	local matches = {}
 	for _, pattern in ipairs(config.ignore_file_patterns) do
