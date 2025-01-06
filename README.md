@@ -43,43 +43,6 @@ Install the plugin with your package manager.
 
 Use [lazy.nvim](https://github.com/folke/lazy.nvim):
 
-```lua
-{
-  "neovim/nvim-lspconfig",
-  dependencies = {
-    {
-      "imroc/kubeschema.nvim",
-      opts = {
-        schema = { -- default schema
-          url = "https://github.com/imroc/kubeschemas",
-          dir = vim.fn.stdpath("data") .. "/kubernetes/schemas",
-        },
-        extra_schema = { -- extra schema, mainly your own crd
-          url = "",
-          dir = vim.fn.stdpath("data") .. "/kubernetes/extra_schemas", -- extra schema dir, `KubeSchemaDump` command will dump json schema to this dir, and have higher priority in schema match
-        },
-        ignore_file_patterns = { -- ignore file patterns, can be used to avoid conflict with other schemas (e.g. SchemaStore.nvim)
-          [[kustomization\.ya?ml$]],
-          [[k3d\.ya?ml$]],
-        }
-      }
-    }
-  },
-  opts = {
-    servers = {
-      yamlls = {
-        on_attach = function(client, bufnr)
-          -- lazy load on_attach in kubernetes.nvim
-          require("kubernetes").on_attach(client, bufnr)
-          -- you can add other customized on_attach logic below if you want
-        end,
-      }
-    }
-  }
-}
-```
-
-Or
 
 ```lua
 {
@@ -87,27 +50,17 @@ Or
   dependencies = {
     {
       "imroc/kubeschema.nvim",
-      opts = {
-        schema = { -- default schema
-          url = "https://github.com/imroc/kubeschemas",
-          dir = vim.fn.stdpath("data") .. "/kubernetes/schemas",
-        },
-        extra_schema = { -- extra schema, mainly your own crd
-          url = "",
-          dir = vim.fn.stdpath("data") .. "/kubernetes/extra_schemas", -- extra schema dir, `KubeSchemaDump` command will dump json schema to this dir, and have higher priority in schema match
-        },
-        ignore_file_patterns = { -- ignore file patterns, can be used to avoid conflict with other schemas (e.g. SchemaStore.nvim)
-          [[kustomization\.ya?ml$]],
-          [[k3d\.ya?ml$]],
-        }
-      }
+      opts = {},
     }
   },
   opts = function(_, opts)
+    -- lazy load kubeschema
+    local kubeschema = require("kubeschema")
+    -- set kubeschema's on_attach to yamlls's on_attach function
     opts.servers = vim.tbl_deep_extend("force", opts.servers or {}, {
       yamlls = {
         -- the opts function is already lazy loaded, so we can directly assign the on_attach function here if no other custom logic needed
-        on_attach = require("kubernetes").on_attach
+        on_attach = kubeschema.on_attach
       }
     })
   end
@@ -129,7 +82,6 @@ Default configuration:
     dir = vim.fn.stdpath("data") .. "/kubernetes/extra_schemas", -- extra schema dir, `KubeSchemaDump` command will dump json schema to this dir, and have higher priority in schema match
   },
   ignore_file_patterns = { -- ignore file patterns, can be used to avoid conflict with other schemas (e.g. SchemaStore.nvim)
-    [[kustomization\.ya?ml$]],
     [[k3d\.ya?ml$]],
   }
 }
