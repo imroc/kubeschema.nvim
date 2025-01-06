@@ -20,7 +20,6 @@ local config = {
 		dir = vim.fn.stdpath("data") .. "/kubernetes/extra_schemas",
 	},
 	ignore_file_patterns = {
-		[[kustomization\.ya?ml$]],
 		[[k3d\.ya?ml$]],
 	},
 }
