@@ -54,13 +54,10 @@ Use [lazy.nvim](https://github.com/folke/lazy.nvim):
     }
   },
   opts = function(_, opts)
-    -- lazy load kubeschema
-    local kubeschema = require("kubeschema")
     -- set kubeschema's on_attach to yamlls's on_attach function
     opts.servers = vim.tbl_deep_extend("force", opts.servers or {}, {
       yamlls = {
-        -- the opts function is already lazy loaded, so we can directly assign the on_attach function here if no other custom logic needed
-        on_attach = kubeschema.on_attach
+        on_attach = require("kubeschema").on_attach
       }
     })
   end
