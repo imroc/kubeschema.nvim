@@ -65,17 +65,7 @@ end
 ---@param key string
 ---@param str string
 local function parse_value(key, str)
-	return str:match("^%s*" .. key .. ":%s*([^#%s]+)")
-	-- local start, col_end = str:find("^%s*" .. key .. ":")
-	-- if start then
-	-- 	local value_part = str:sub(col_end + 1)
-	-- 	local comment_start = value_part:find("#")
-	-- 	if comment_start then
-	-- 		value_part = value_part:sub(1, comment_start - 1)
-	-- 	end
-	-- 	value_part = value_part:match("^%s*(.*%S)%s*$")
-	-- 	return value_part
-	-- end
+	return str:match("^" .. key .. ":%s*([^#%s]+)$")
 end
 
 ---@param config kubeschema.Config?
