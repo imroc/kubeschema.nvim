@@ -31,7 +31,6 @@ And [kubelet configuration](https://kubernetes.io/docs/reference/config-api/kube
 
 ![](./images/kubelet-autocomplete.png)
 
-
 Validation:
 
 ![](./images/validation.png)
