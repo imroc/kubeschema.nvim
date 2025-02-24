@@ -15,15 +15,15 @@ Auto completion with kubernetes custom resources:
 
 ![](./images/cert-autocomplete.png)
 
-Auto completion with kubeconfig:
-
-![](./images/kubeconfig-autocomplete.png)
-
 Auto completion with [kind](https://kind.sigs.k8s.io/docs/user/configuration/) configuration:
 
 ![](./images/kind-autocomplete.png)
 
-Auto completion with all [Kubernetes Configuration APIs](https://kubernetes.io/docs/reference/config-api/). For example, [kubeadm configuration](https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta3/):
+Auto completion with all [Kubernetes Configuration APIs](https://kubernetes.io/docs/reference/config-api/). For example, [kubeconfig](https://kubernetes.io/docs/reference/config-api/kubeconfig.v1/):
+
+![](./images/kubeconfig-autocomplete.png)
+
+And [kubeadm configuration](https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta3/):
 
 ![](./images/kubeadm-autocomplete.png)
 
