@@ -2,7 +2,7 @@
 
 Kubernetes Schema Support for Neovim, Schema is Powered by [kubeschema](https://github.com/imroc/kubeschema) (A tool to generate json schema from kubernetes builtin resource types and CRDs) and [kubeschemas](https://github.com/imroc/kubeschemas) (Publicly maintained kubernetes related json schema).
 
-All kubenretes builtin resource types, a lot of well knowns CRDs and kubernetes related configuration file schemas are supported out of the box (3000+ types), and can be flexibly extended with more customized schemas.
+All kubenretes builtin resource types, a lot of well knowns CRDs and kubernetes related configuration file schemas are supported out of the box (3100+ types), and can be flexibly extended with more customized schemas.
 
 
 ## Screenshots
@@ -23,9 +23,14 @@ Auto completion with [kind](https://kind.sigs.k8s.io/docs/user/configuration/) c
 
 ![](./images/kind-autocomplete.png)
 
-Auto completion with [kubeadm](https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta3/) configuration:
+Auto completion with all [Kubernetes Configuration APIs](https://kubernetes.io/docs/reference/config-api/). For example, [kubeadm configuration](https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta3/):
 
 ![](./images/kubeadm-autocomplete.png)
+
+And [kubelet configuration](https://kubernetes.io/docs/reference/config-api/kubelet-config.v1/):
+
+![](./images/kubelet-autocomplete.png)
+
 
 Validation:
 
