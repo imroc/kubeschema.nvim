@@ -74,17 +74,24 @@ local get_kube_schema_settings = function(client, bufnr, config)
 		if v then
 			if apiVersion then
 				multi = true
+				if not kind then -- multiple apiVersion without kind, it's not k8s yaml, return
+					return nil
+				end
+				break -- multi-doc deteted
 			else
 				apiVersion = v
 			end
-			if kind then
-				break
-			end
 		else
-			if not kind then
-				kind = parse_value("kind", line)
-				if kind and apiVersion then
-					break
+			local k = parse_value("kind", line)
+			if k then
+				if kind then
+					multi = true
+					if not apiVersion then -- multiple kind without apiVersion, it's not k8s yaml, return
+						return nil
+					end
+					break -- multi-doc deteted
+				else
+					kind = k
 				end
 			end
 		end
