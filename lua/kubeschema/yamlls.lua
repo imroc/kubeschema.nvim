@@ -1,16 +1,6 @@
 local M = {}
 
-local function remove_prefix(str, prefix)
-	if str:sub(1, #prefix) == prefix then
-		return str:sub(#prefix + 1)
-	else
-		return str
-	end
-end
-
 local path_separator = package.config:sub(1, 1)
-local regKind = vim.regex([[\v^kind: \S+$]])
-local regApiVersion = vim.regex([[\v^apiVersion: \S+$]])
 local regHelm = vim.regex([[\v\{\{.+\}\}]])
 
 local detach = function(client, bufnr)
@@ -87,9 +77,15 @@ local get_kube_schema_settings = function(client, bufnr, config)
 			else
 				apiVersion = v
 			end
+			if kind then
+				break
+			end
 		else
 			if not kind then
 				kind = parse_value("kind", line)
+				if kind and apiVersion then
+					break
+				end
 			end
 		end
 	end
