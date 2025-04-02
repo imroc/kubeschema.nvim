@@ -2,14 +2,6 @@ local M = {}
 
 local path_separator = package.config:sub(1, 1)
 
-local detach = function(client, bufnr)
-	vim.diagnostic.enable(false, { bufnr = bufnr })
-	vim.defer_fn(function()
-		vim.diagnostic.reset(nil, bufnr)
-		vim.lsp.buf_detach_client(bufnr, client.id)
-	end, 500)
-end
-
 local buf_schemas = {}
 
 local function set_schema(schema_file, bufuri, schemas)
@@ -140,10 +132,11 @@ function M.update_yamlls_config(client, bufnr, config)
 		return
 	end
 
-	-- remove yamlls from not yaml files
-	-- https://github.com/towolf/vim-helm/issues/15
-	if vim.bo[bufnr].buftype ~= "" or vim.bo[bufnr].filetype == "helm" then
-		-- detach(client, bufnr)
+	-- disable yamlls in helm files
+	if vim.bo[bufnr].filetype == "helm" then
+		vim.schedule(function()
+			vim.cmd("LspStop ++force yamlls")
+		end)
 		return
 	end
 
