@@ -143,7 +143,7 @@ function M.update_yamlls_config(client, bufnr, config)
 	-- remove yamlls from not yaml files
 	-- https://github.com/towolf/vim-helm/issues/15
 	if vim.bo[bufnr].buftype ~= "" or vim.bo[bufnr].filetype == "helm" then
-		detach(client, bufnr)
+		-- detach(client, bufnr)
 		return
 	end
 
