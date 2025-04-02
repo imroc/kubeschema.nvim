@@ -1,7 +1,6 @@
 local M = {}
 
 local path_separator = package.config:sub(1, 1)
-local regHelm = vim.regex([[\v\{\{.+\}\}]])
 
 local detach = function(client, bufnr)
 	vim.diagnostic.enable(false, { bufnr = bufnr })
@@ -65,11 +64,6 @@ local get_kube_schema_settings = function(client, bufnr, config)
 	local apiVersion = nil
 	local multi = false
 	for _, line in ipairs(lines) do
-		if regHelm:match_str(line) then -- ignore helm template
-			detach(client, bufnr)
-			return nil
-		end
-
 		local v = parse_value("apiVersion", line)
 		if v then
 			if apiVersion then
@@ -131,7 +125,7 @@ local match = require("kubeschema.match")
 
 ---@param config kubeschema.Config
 function M.on_buf_write(bufnr, config)
-	local clients = vim.lsp.get_active_clients({ bufnr = bufnr })
+	local clients = vim.lsp.get_clients({ bufnr = bufnr })
 	for _, client in ipairs(clients) do
 		if client.name == "yamlls" then
 			M.update_yamlls_config(client, bufnr, config)
@@ -153,7 +147,6 @@ function M.update_yamlls_config(client, bufnr, config)
 		return
 	end
 
-	--  ignore kustomization.yaml and k3d.yaml to avoid conflict with schemastore.nvim
 	local buf_path = vim.api.nvim_buf_get_name(bufnr)
 	if not config.match_ignore then
 		match.setup_matcher(config)
@@ -161,10 +154,6 @@ function M.update_yamlls_config(client, bufnr, config)
 	if config.match_ignore(buf_path) then
 		return
 	end
-
-	-- if buf_path:match("kustomization.ya?ml$") or buf_path:match("k3d.ya?ml$") then
-	-- 	return
-	-- end
 
 	local settings = get_kube_schema_settings(client, bufnr, config)
 	if settings then
