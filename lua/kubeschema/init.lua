@@ -11,6 +11,7 @@ local Path = require("plenary.path")
 ---@field schema? kubeschema.Schema
 ---@field extra_schema? kubeschema.Schema
 ---@field ignore_file_patterns? string[]
+---@field debug? boolean
 local config = {
 	schema = {
 		url = "https://github.com/imroc/kubeschemas",
@@ -22,6 +23,7 @@ local config = {
 	ignore_file_patterns = {
 		[[k3d\.ya?ml$]],
 	},
+	debug = false,
 }
 
 M.did_setup = false
@@ -53,7 +55,7 @@ local yamlls = require("kubeschema.yamlls")
 ---@param opts kubeschema.Config?
 function M.setup(opts)
 	if M.did_setup then
-		return vim.notify("kubernetes.nvim is already setup", vim.log.levels.ERROR, { title = "kubernetes.nvim" })
+		return vim.notify("kubeschema.nvim is already setup", vim.log.levels.ERROR, { title = "kubeschema.nvim" })
 	end
 	M.did_setup = true
 	config = vim.tbl_deep_extend("force", config, opts or {})

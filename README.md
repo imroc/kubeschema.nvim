@@ -121,7 +121,8 @@ Default configuration:
   },
   ignore_file_patterns = { -- ignore file patterns, can be used to avoid conflict with other schemas (e.g. SchemaStore.nvim)
     [[k3d\.ya?ml$]],
-  }
+  },
+  debug = false, -- set to true if you want to enable debug logging.
 }
 ```
 

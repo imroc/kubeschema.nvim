@@ -87,7 +87,20 @@ local get_kube_schema_settings = function(client, bufnr, config)
 		local filename = ""
 		if multi then
 			filename = "kubernetes.json"
+			if config.debug then
+				vim.notify("multiple kubernetes resource deteted in current yaml file", vim.log.levels.DEBUG)
+			end
 		else
+			if config.debug then
+				vim.notify(
+					"kubernetes resource deteted in current yaml file (apiVersion: "
+						.. apiVersion
+						.. ", kind: "
+						.. kind
+						.. ")",
+					vim.log.levels.DEBUG
+				)
+			end
 			local ss = vim.split(apiVersion, "/")
 			local group = "core"
 			local version = apiVersion
@@ -106,8 +119,18 @@ local get_kube_schema_settings = function(client, bufnr, config)
 			local schemas = client.config.settings.yaml.schemas or {}
 			local bufuri = vim.uri_from_bufnr(bufnr)
 			if set_schema(schema_file, bufuri, schemas) then
+				if config.debug then
+					vim.notify("use schema file " .. schema_file .. " for buffer " .. bufuri, vim.log.levels.DEBUG)
+				end
 				client.config.settings.yaml.schemas = schemas
 				return client.config.settings
+			end
+		else
+			if config.debug then
+				vim.notify(
+					"try to use schema file " .. schema_file .. "but schema file not found",
+					vim.log.levels.DEBUG
+				)
 			end
 		end
 	end
