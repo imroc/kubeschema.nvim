@@ -172,7 +172,7 @@ function M.update_yamlls_config(client, bufnr, config)
 	end
 
 	local settings = get_kube_schema_settings(client, bufnr, config)
-	if settings then
+	if settings and client.workspace_did_change_configuration then
 		-- client.server_capabilities.documentRangeFormattingProvider = true
 		client.workspace_did_change_configuration(settings)
 	end
