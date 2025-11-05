@@ -46,7 +46,7 @@ end
 ---@param key string
 ---@param str string
 local function parse_value(key, str)
-	return str:match("^" .. key .. ":%s*([^#%s]+)$")
+	return str:match("^" .. key .. ":%s*[\"']?([^#%s\"']+)[\"']?$", 1)
 end
 
 ---@param config kubeschema.Config?
